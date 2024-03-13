@@ -20,6 +20,9 @@ pipeline {
             label 'AGENT-1'
         }
     }
+    environment {
+        GREETING = 'Hello jenkins'
+    }
     //build
     stages {
         stage('Build') {
@@ -34,7 +37,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                sh """
+                    echo "Here i wrote shell script"
+                    env
+                """
             }
         }
     }
@@ -42,6 +48,12 @@ pipeline {
     post {
         always {
             echo 'I will always say HELLO again'
+        }
+        failure {
+            echo 'This run when pipeline failed'
+        }
+        success {
+            echo 'This ipeline is sucess'
         }
     }
 }
